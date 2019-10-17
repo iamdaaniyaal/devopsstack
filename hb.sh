@@ -17,5 +17,7 @@ sudo tar -xvf /opt/harbor-online*  -C /opt/
 sudo echo 'export harborip='$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)'' >> ~/.bash_profile
 source ~/.bash_profile
 export harborip=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip)
-sudo sed -i 's/hostname: reg.mydomain.com/hostname: $harborip/g'   /opt/harbor/harbor.yml
+# sudo sed -i 's/hostname: reg.mydomain.com/hostname: $harborip/g'   /opt/harbor/harbor.yml
+sudo sed -i 's/reg.mydomain.com/'$harborip'/' /opt/harbor/harbor.yml
 sudo  sh  /opt/harbor/install.sh --with-clair
+# sudo sed -i 's/reg.mydomain.com/'$IP'/' harbor.yml
