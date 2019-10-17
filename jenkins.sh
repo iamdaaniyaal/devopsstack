@@ -3,9 +3,9 @@ sudo systemctl stop firewalld && sudo systemctl disable firewalld
 sudo echo 'export jenkinsip=`curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip`' >> ~/.bash_profile
 sudo echo 'export ipdata=`curl -H "Metadata-Flavor: Google" http://metadata/computeMetadata/v1/instance/description`' >> ~/.bash_profile
 source ~/.bash_profile
-# sudo cut -d + -f 1 <<< $ipdata
+sudo cut -d + -f 1 <<< $ipdata
 export sonarqubeip=$(cut -d + -f 1  <<< $ipdata)
-# export harborip=$(cut -d + -f 2  <<< $ipdata)
+export harborip=$(cut -d + -f 2  <<< $ipdata)
 source ~/.bash_profile
 sudo yum install epel-release -y 
 sudo yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel  wget  unzip -y 
@@ -17,11 +17,11 @@ sudo  wget -O  /opt/docker.sh  https://get.docker.com && sudo chmod 755 /opt/doc
 sudo sh  /opt/docker.sh   &&  sudo usermod -aG  docker jenkins && sudo systemctl start docker
 sudo systemctl stop  docker
 sudo  touch /etc/docker/daemon.json
-# sudo cat > /etc/docker/daemon.json << EOF
-# {
-#         "insecure-registries" : ["$harborip"]
-# }
-# EOF
+sudo cat > /etc/docker/daemon.json << EOF
+{
+        "insecure-registries" : ["$harborip"]
+}
+EOF
 # sudo cp /gcpterraform/scripts/mydaemon.json /etc/docker/daemon.json
 # sudo sed -i 's/$jenkinsip/'$jenkinsip'/' /etc/docker/daemon.json
 # sudo sed -i 's/$jenkinsip/'$jenkinsip'/' /etc/docker/daemon.json
@@ -34,4 +34,4 @@ sudo wget -P /opt/  https://binaries.sonarsource.com/Distribution/sonar-scanner-
 sudo unzip /opt/sonar-scanner-cli-3.3.0.1492-linux.zip -d /opt  &&  sudo mv /opt/sonar-scanner-3.3.0.1492-linux  /opt/sonar-scanner
 sudo echo "sonar.host.url=http://${sonarqubeip}" >> /opt/sonar-scanner/conf/sonar-scanner.properties
 # sudo cp /tmp/mydeamon.json /etc/docker/daemon.json
-# sudo chmod 777 /etc/docker/daemon.json
+sudo chmod 777 /etc/docker/daemon.json
