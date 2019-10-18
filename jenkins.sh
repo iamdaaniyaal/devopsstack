@@ -35,3 +35,5 @@ sudo unzip /opt/sonar-scanner-cli-3.3.0.1492-linux.zip -d /opt  &&  sudo mv /opt
 sudo echo "sonar.host.url=http://${sonarqubeip}" >> /opt/sonar-scanner/conf/sonar-scanner.properties
 # sudo cp /tmp/mydeamon.json /etc/docker/daemon.json
 sudo chmod 777 /etc/docker/daemon.json
+sudo echo "sudo gcloud init" > /root/gcloud  && sudo chmod 755 /root/gcloud
+printf '1\n1\n1\ny\n' | sh /root/gcloud
