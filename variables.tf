@@ -2,6 +2,15 @@ variable "credentials" {}
 variable "gcp_project" {}
 variable "region" {}
 
+variable "vpc1_name" {}
+variable "subnet1_cidr" {}
+variable "subnet1_region" {}
+variable "firewall_protocol1" {}
+variable "firewall_ports" {
+  type = list(string)
+}
+
+
 variable "harbor_instance_ip_name" {}
 variable "harbor_instance_ip_region" {}
 variable "harbor_instance_name" {}
