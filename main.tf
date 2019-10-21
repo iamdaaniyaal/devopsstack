@@ -6,7 +6,81 @@ provider "google" {
 }
 
 
+resource "google_compute_network" "vpc1" {
+  name                    = "${var.vpc1_name}-vpc"
+  auto_create_subnetworks = "false"
+}
+
+
+// Create VPC1 Subnet
+resource "google_compute_subnetwork" "subnet1" {
+  name          = "${var.vpc1_name}-subnet"
+  ip_cidr_range = "${var.subnet1_cidr}"
+  network       = "${var.vpc1_name}-vpc"
+  depends_on    = ["google_compute_network.vpc1"]
+  region        = "${var.subnet1_region}"
+}
+
+
+
+// VPC 1 INGRESS firewall configuration
+resource "google_compute_firewall" "firewall1" {
+  name      = "${var.vpc1_name}-ingress-firewall"
+  network   = "${google_compute_network.vpc1.name}"
+  direction = "INGRESS"
+
+  allow {
+    protocol = "${var.firewall_protocol1}"
+  }
+
+
+
+  allow {
+    protocol = "tcp"
+    ports    = "${var.firewall_ports}"
+  }
+
+  //Giving source ranges as this is a INGRESS Firewall Rule
+  source_ranges = ["0.0.0.0/0"]
+}
+
+// VPC 1  EGRESS firewall configuration
+resource "google_compute_firewall" "firewall2" {
+  name               = "${var.vpc1_name}-egress-firewall"
+  network            = "${google_compute_network.vpc1.name}"
+  direction          = "EGRESS"
+  destination_ranges = ["0.0.0.0/0"]
+
+  allow {
+    protocol = "${var.firewall_protocol1}"
+  }
+
+
+
+  allow {
+    protocol = "tcp"
+    ports    = "${var.firewall_ports}"
+  }
+
+  //Not giving source ranges as this is a EGRESS Firewall Rule
+  //source_ranges = "${var.subnet1_source_ranges}"
+}
+
+
+# data "google_compute_image" "harbor" {
+#   family  = "centos"
+#   project = "cloudglobaldelivery-1000135575"
+# }
+
+
 //Harbor Instance (Ashoks Harbor)
+
+data "google_compute_image" "harbor" {
+#   family  = "centos"
+  name = "harbor"
+  project = "cloudglobaldelivery-1000135575"
+}
+
 resource "google_compute_address" "hbip" {
   name   = "${var.harbor_instance_ip_name}"
   region = "${var.harbor_instance_ip_region}"
@@ -24,7 +98,7 @@ resource "google_compute_instance" "harbor" {
 
   boot_disk {
     initialize_params {
-      image = "centos-7-v20180129"
+      image = "${data.google_compute_image.harbor.self_link}"
     }
   }
   // Local SSD disk
@@ -33,9 +107,9 @@ resource "google_compute_instance" "harbor" {
 
   network_interface {
     # network = "default"
-
-    network    = "${var.harbor_instance_vpc_name}"
-    subnetwork = "${var.harbor_instance_subnet_name}"
+    
+    network    = "${google_compute_network.vpc1.self_link}"
+    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
     access_config {
       // Ephemeral IP
       nat_ip       = "${google_compute_address.hbip.address}"
@@ -62,6 +136,12 @@ resource "google_compute_instance" "harbor" {
 
 //Jenkins Instance
 
+data "google_compute_image" "jenkins" {
+#   family  = "centos"
+  name = "jenkins"
+  project = "cloudglobaldelivery-1000135575"
+}
+
 resource "google_compute_address" "jip" {
   name   = "${var.jenkins_instance_ip_name}"
   region = "${var.jenkins_instance_ip_region}"
@@ -84,7 +164,7 @@ resource "google_compute_instance" "jenkins" {
 
   boot_disk {
     initialize_params {
-      image = "centos-7-v20180129"
+      image = "${data.google_compute_image.jenkins.self_link}"
     }
   }
 
@@ -94,8 +174,8 @@ resource "google_compute_instance" "jenkins" {
 
 
   network_interface {
-    network    = "${var.jenkins_instance_vpc_name}"
-    subnetwork = "${var.jenkins_instance_subnet_name}"
+    network    = "${google_compute_network.vpc1.self_link}"
+    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
 
     access_config {
       // Ephemeral IP
@@ -130,6 +210,13 @@ resource "google_compute_instance" "jenkins" {
 
 
 //SonarQube Instance
+data "google_compute_image" "sonarqube" {
+#   family  = "centos"
+  name = "sonarqube"
+  project = "cloudglobaldelivery-1000135575"
+}
+
+
 resource "google_compute_address" "sonarip" {
   name   = "${var.sonar_instance_ip_name}"
   region = "${var.sonar_instance_ip_region}"
@@ -145,7 +232,7 @@ resource "google_compute_instance" "sonarqube" {
 
   boot_disk {
     initialize_params {
-      image = "centos-7-v20180129"
+      image = "${data.google_compute_image.sonarqube.self_link}"
     }
   }
 
@@ -154,8 +241,8 @@ resource "google_compute_instance" "sonarqube" {
   #}
 
   network_interface {
-    network    = "${var.sonar_instance_vpc_name}"
-    subnetwork = "${var.sonar_instance_subnet_name}"
+    network    = "${google_compute_network.vpc1.self_link}"
+    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
 
 
     access_config {
@@ -174,6 +261,12 @@ resource "google_compute_instance" "sonarqube" {
 
 //ELK
 
+data "google_compute_image" "sonarqube" {
+#   family  = "centos"
+  name = "elk"
+  project = "cloudglobaldelivery-1000135575"
+}
+
 resource "google_compute_address" "elkip" {
   name   = "${var.elk_instance_ip_name}"
   region = "${var.elk_instance_ip_region}"
@@ -189,18 +282,18 @@ resource "google_compute_instance" "elk" {
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-1604-xenial-v20190816"
+      image = "${data.google_compute_image.elk.self_link}"
     }
   }
 
   // Local SSD disk
-  scratch_disk {
-  }
+#   scratch_disk {
+#   }
 
   network_interface {
     # network = "default"
-    network    = "${var.elk_instance_vpc_name}"
-    subnetwork = "${var.elk_instance_subnet_name}"
+     network    = "${google_compute_network.vpc1.self_link}"
+    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
 
 
     access_config {
@@ -229,6 +322,8 @@ resource "google_compute_instance" "elk" {
 resource "google_container_cluster" "primary" {
   name     = "${var.kube_cluster_name}"
   location = "${var.kube_cluster_location}"
+     network    = "${google_compute_network.vpc1.self_link}"
+    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
 
   # We can't create a cluster with no node pool defined, but we want to only use
   # separately managed node pools. So we create the smallest possible default
