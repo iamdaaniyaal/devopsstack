@@ -123,7 +123,7 @@ resource "google_compute_instance" "harbor" {
     name = "harbor"
   }
   description             = "${google_compute_address.hbip.address}"
-  metadata_startup_script = "sudo yum update -y; sudo yum install git -y; sudo yum install wget -y; git clone https://github.com/iamdaaniyaal/devopsstack.git; cd devopsstack; sudo chmod 777 hb.sh; sh hb.sh"
+  metadata_startup_script = "sudo yum update -y; sudo yum install git -y; export harborip=$(curl -H \"Metadata-Flavor: Google\" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip);sudo yum install wget -y; sudo sed -i 's/35.185.35.12/'$harborip'/gI' /opt/harbor/harbor.yml"
 
 
   service_account {
@@ -319,27 +319,27 @@ resource "google_compute_instance" "elk" {
 
 //Kubernetes
 
-resource "google_container_cluster" "primary" {
-  name     = "${var.kube_cluster_name}"
-  location = "${var.kube_cluster_location}"
-     network    = "${google_compute_network.vpc1.self_link}"
-    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
+# resource "google_container_cluster" "primary" {
+#   name     = "${var.kube_cluster_name}"
+#   location = "${var.kube_cluster_location}"
+#      network    = "${google_compute_network.vpc1.self_link}"
+#     subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
 
-  # We can't create a cluster with no node pool defined, but we want to only use
-  # separately managed node pools. So we create the smallest possible default
-  # node pool and immediately delete it.
-#   remove_default_node_pool = true
-  initial_node_count       = 1
+#   # We can't create a cluster with no node pool defined, but we want to only use
+#   # separately managed node pools. So we create the smallest possible default
+#   # node pool and immediately delete it.
+# #   remove_default_node_pool = true
+#   initial_node_count       = 1
 
-  master_auth {
-    username = ""
-    password = ""
+#   master_auth {
+#     username = ""
+#     password = ""
 
-    client_certificate_config {
-      issue_client_certificate = false
-    }
-  }
-}
+#     client_certificate_config {
+#       issue_client_certificate = false
+#     }
+#   }
+# }
 
 # resource "google_container_node_pool" "primary_preemptible_nodes" {
 #   name       = "${var.kube_node_pool_name}"
