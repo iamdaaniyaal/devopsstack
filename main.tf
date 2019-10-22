@@ -319,27 +319,27 @@ resource "google_compute_instance" "elk" {
 
 //Kubernetes
 
-resource "google_container_cluster" "primary" {
-  name     = "${var.kube_cluster_name}"
-  location = "${var.kube_cluster_location}"
-     network    = "${google_compute_network.vpc1.self_link}"
-    subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
+# resource "google_container_cluster" "primary" {
+#   name     = "${var.kube_cluster_name}"
+#   location = "${var.kube_cluster_location}"
+#      network    = "${google_compute_network.vpc1.self_link}"
+#     subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
 
-  # We can't create a cluster with no node pool defined, but we want to only use
-  # separately managed node pools. So we create the smallest possible default
-  # node pool and immediately delete it.
-#   remove_default_node_pool = true
-  initial_node_count       = 1
+#   # We can't create a cluster with no node pool defined, but we want to only use
+#   # separately managed node pools. So we create the smallest possible default
+#   # node pool and immediately delete it.
+# #   remove_default_node_pool = true
+#   initial_node_count       = 1
 
-  master_auth {
-    username = ""
-    password = ""
+#   master_auth {
+#     username = ""
+#     password = ""
 
-    client_certificate_config {
-      issue_client_certificate = false
-    }
-  }
-}
+#     client_certificate_config {
+#       issue_client_certificate = false
+#     }
+#   }
+# }
 
 # resource "google_container_node_pool" "primary_preemptible_nodes" {
 #   name       = "${var.kube_node_pool_name}"
