@@ -30,7 +30,6 @@ sudo systemctl restart docker
 
 cat > /opt/ipvalue.txt << EOF
 harbor_target
-
 EOF
 
 sudo sed -i 's/harbor_target/'$harborip'/'  /opt/ipvalue.txt
