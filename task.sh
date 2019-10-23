@@ -11,6 +11,7 @@ source ~/.bash_profile
 cd /var/lib/jenkins/jobs/Gk8
 sudo sed -i 's/35.243.237.117/'$harborip'/gI' config.xml
 sudo sed -i 's/k8s-stack-devopsstack-101819104711/'$cluster'/gI' config.xml
+#sudo sed -i 's/https://github.com/ashoksanem/jenkins_test/'
 
 cd /
 cd /var/lib/jenkins
@@ -26,3 +27,10 @@ cd /etc/docker
 
 sudo sed -i 's/35.243.237.117/'$harborip'/gI' daemon.json
 sudo systemctl restart docker
+
+cat > /opt/ipvalue.txt << EOF
+harbor_target
+
+EOF
+
+sudo sed -i 's/harbor_target/'$harborip'/'  /opt/ipvalue.txt
