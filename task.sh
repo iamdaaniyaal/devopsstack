@@ -34,3 +34,5 @@ harbor_target
 EOF
 
 sudo sed -i 's/harbor_target/'$harborip'/'  /opt/ipvalue.txt
+
+echo "$harborip" > /opt/hbip.txt
