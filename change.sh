@@ -17,6 +17,7 @@ terraform apply --auto-approve
 export jenkins='jk-'$stack_name'-'$stack'-'$time''
 export jkip=`gcloud compute instances list --filter="name='$jenkins'" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"`
 echo $jkip; 
+echo "curl -X POST http://"$jkip":8080/job/Gk8/build --user jenkins:jenkins"
 curl -X POST http://"$jkip":8080/job/Gk8/build --user jenkins:jenkins
 # fi
 # export jenkins=jk-'$stack-name'-'$stack'-'$time'
