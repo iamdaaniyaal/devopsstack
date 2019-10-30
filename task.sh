@@ -9,15 +9,15 @@ export cluster=$(cut -d + -f 3 <<< $ipdata)
 source ~/.bash_profile
 
 cd /var/lib/jenkins/jobs/Gk8
-sudo sed -i 's/35.243.237.117/'$harborip'/gI' config.xml
-sudo sed -i 's/k8s-stack-devopsstack-101819104711/'$cluster'/gI' config.xml
+sudo sed -i 's/35.227.120.7/'$harborip'/gI' config.xml
+sudo sed -i 's/k8s-java-devopsstack-103019070156/'$cluster'/gI' config.xml
 #sudo sed -i 's/https://github.com/ashoksanem/jenkins_test/'
 
 cd /
 cd /var/lib/jenkins
 
-sudo sed -i 's/34.74.131.185/'$sonarqubeip'/gI' hudson.plugins.sonar.SonarGlobalConfiguration.xml
-sudo sed -i 's/35.185.111.135/'$jenkinsip'/gI' jenkins.model.JenkinsLocationConfiguration.xml
+sudo sed -i 's/34.73.9.146/'$sonarqubeip'/gI' hudson.plugins.sonar.SonarGlobalConfiguration.xml
+sudo sed -i 's/104.196.183.28/'$jenkinsip'/gI' jenkins.model.JenkinsLocationConfiguration.xml
 
 
 sudo systemctl restart jenkins
@@ -25,7 +25,7 @@ sudo systemctl restart jenkins
 cd /
 cd /etc/docker
 
-sudo sed -i 's/35.243.237.117/'$harborip'/gI' daemon.json
+sudo sed -i 's/35.227.120.7/'$harborip'/gI' daemon.json
 sudo systemctl restart docker
 
 cat > /opt/ipvalue.txt << EOF
