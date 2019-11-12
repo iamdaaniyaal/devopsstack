@@ -5,9 +5,9 @@ sudo sed -i 's/vmname/'$stack_name'/gI' terraform.tfvars
 sudo sed -i 's/target_machine/'$machine_type'/gI' terraform.tfvars
 
 
-terraform init
-terraform plan
-terraform apply --auto-approve
+sudo terraform init
+sudo terraform plan
+sudo terraform apply --auto-approve
 
 echo we_got_here;
 
