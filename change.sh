@@ -9,6 +9,8 @@ terraform init
 terraform plan
 terraform apply --auto-approve
 
+echo we_got_here;
+
 
 
 # if [ $stack==devops ]
