@@ -5,9 +5,9 @@ sudo sed -i 's/vmname/'$stack_name'/gI' terraform.tfvars
 sudo sed -i 's/target_machine/'$machine_type'/gI' terraform.tfvars
 
 
-sudo terraform init
-sudo terraform plan
-sudo terraform apply --auto-approve
+ terraform init
+ terraform plan
+ terraform apply --auto-approve
 
 echo we_got_here;
 
@@ -16,8 +16,8 @@ echo we_got_here;
 # if [ $stack==devops ]
 # then
 # export jenkins=jk-'$stack-name'-'$stack'-'$time'
-sudo export jenkins='jk-'$stack_name'-'$stack'-'$time''
-sudo export jkip=`gcloud compute instances list --filter="name='$jenkins'" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"`
+ export jenkins='jk-'$stack_name'-'$stack'-'$time''
+ export jkip=`gcloud compute instances list --filter="name='$jenkins'" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"`
 echo $jkip; 
 echo "curl -X POST http://"$jkip":8080/job/Gk8/build --user jenkins:jenkins"
 # curl -X POST http://"$jkip":8080/job/Gk8/build --user jenkins:jenkins
