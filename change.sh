@@ -16,8 +16,8 @@ echo we_got_here;
 # if [ $stack==devops ]
 # then
 # export jenkins=jk-'$stack-name'-'$stack'-'$time'
-export jenkins='jk-'$stack_name'-'$stack'-'$time''
-export jkip=`gcloud compute instances list --filter="name='$jenkins'" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"`
+sudo export jenkins='jk-'$stack_name'-'$stack'-'$time''
+sudo export jkip=`gcloud compute instances list --filter="name='$jenkins'" --format "get(networkInterfaces[0].accessConfigs[0].natIP)"`
 echo $jkip; 
 echo "curl -X POST http://"$jkip":8080/job/Gk8/build --user jenkins:jenkins"
 # curl -X POST http://"$jkip":8080/job/Gk8/build --user jenkins:jenkins
