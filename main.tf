@@ -127,6 +127,7 @@ resource "google_compute_instance" "harbor" {
 
 
   service_account {
+    email  = "newjarvis@cloudglobaldelivery-1000135575.iam.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
   # metadata_startup_script = "sudo yum update; sudo yum install wget -y; sudo  echo \"root123\" | passwd --stdin root; sudo  mv /etc/ssh/sshd_config  /opt; sudo touch /etc/ssh/sshd_config; sudo echo -e \"Port 22\nHostKey /etc/ssh/ssh_host_rsa_key\nPermitRootLogin yes\nPubkeyAuthentication yes\nPasswordAuthentication yes\nUsePAM yes\" >  /etc/ssh/sshd_config; sudo systemctl restart  sshd;sudo useradd test; sudo echo  -e \"test    ALL=(ALL)  NOPASSWD:  ALL\" >> /etc/sudoers;"
