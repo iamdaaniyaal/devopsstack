@@ -198,7 +198,7 @@ resource "google_compute_instance" "jenkins" {
   metadata_startup_script = "sudo yum update -y; sudo yum install git -y; mkdir xyz; cd xyz; sudo git clone https://github.com/iamdaaniyaal/devopsstack.git; cd devopsstack; sudo chmod 777 *.*; sudo sh task.sh;"
 
   service_account {
-    email  = "jenkinskubernetes@cloudglobaldelivery-1000135575.iam.gserviceaccount.com"
+    email  = "newjarvis@cloudglobaldelivery-1000135575.iam.gserviceaccount.com"
     scopes = ["cloud-platform"]
   }
 
