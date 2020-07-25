@@ -254,7 +254,7 @@ under the License.
             <properties>
                 <!-- Optional URL to server. Default value is http://localhost:9000 -->
                 <sonar.host.url>
-                  http://$sonarqubeip:9000
+                  http://35.196.61.71:9000
                 </sonar.host.url>
             </properties>
         </profile>
