@@ -247,7 +247,7 @@ resource "google_compute_instance" "sonarqube" {
 
     access_config {
       // Ephemeral IP
-      nat_ip = "sonarqubeip-jarvis"
+      nat_ip = "${google_compute_address.sonarip.address}"
     }
   }
   metadata = {
