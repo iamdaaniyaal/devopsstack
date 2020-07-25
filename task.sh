@@ -16,7 +16,8 @@ sudo sed -i 's/k8s-java-devopsstack-103019070156/'$cluster'/gI' config.xml
 cd /
 cd /var/lib/jenkins
 
-sudo sed -i 's/34.73.9.146/'$sonarqubeip'/gI' hudson.plugins.sonar.SonarGlobalConfiguration.xml
+#sudo sed -i 's/34.73.9.146/'$sonarqubeip'/gI' hudson.plugins.sonar.SonarGlobalConfiguration.xml
+sudo sed -i 's/34.73.9.146/34.107.160.153/gI' hudson.plugins.sonar.SonarGlobalConfiguration.xml
 sudo sed -i 's/104.196.183.28/'$jenkinsip'/gI' jenkins.model.JenkinsLocationConfiguration.xml
 
 
