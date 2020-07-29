@@ -29,6 +29,12 @@ cd /etc/docker
 sudo sed -i 's/35.227.120.7/'$harborip'/gI' daemon.json
 sudo systemctl restart docker
 
+cd /opt/sonar-scanner/conf
+sudo sed -i 's/34.74.71.228/'$sonarqubeip'/gI' sonar-scanner.properties
+cd /
+cd /var/lib/jenkins
+sudo sed -i 's/34.74.71.228/'$sonarqubeip'/gI' hudson.plugins.sonar.SonarGlobalConfiguration.xml
+
 cat > /opt/ipvalue.txt << EOF
 harbor_target
 EOF
