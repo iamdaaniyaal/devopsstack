@@ -140,7 +140,7 @@ resource "google_compute_instance" "harbor" {
 data "google_compute_image" "jenkins" {
 #   family  = "centos"
   #name = "jenkins-image-dev"
-  name = "newjenkinshaiyechunamatjarvisbackupimage"
+  name = "jarvisjenkinsnext"
   project = "cloudglobaldelivery-1000135575"
 }
 
@@ -218,11 +218,15 @@ data "google_compute_image" "sonarqube" {
 }
 
 
-resource "google_compute_address" "sonarip" {
-  name   = "${var.sonar_instance_ip_name}"
-  region = "${var.sonar_instance_ip_region}"
-}
+#resource "google_compute_address" "sonarip" {
+#  name   = "${var.sonar_instance_ip_name}"
+#  region = "${var.sonar_instance_ip_region}"
+#}
 
+data "google_compute_address" "sonarvmip" {
+	name = "sonarqubeip-jarvis"
+	project = "cloudglobaldelivery-1000135575"
+}
 
 resource "google_compute_instance" "sonarqube" {
   name         = "${var.sonar_instance_name}"
@@ -248,7 +252,7 @@ resource "google_compute_instance" "sonarqube" {
 
     access_config {
       // Ephemeral IP
-      nat_ip = "${google_compute_address.sonarip.address}"
+      nat_ip = "${data.google_compute_address.sonarvmip.address}"
     }
   }
   metadata = {
