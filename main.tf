@@ -252,7 +252,7 @@ resource "google_compute_instance" "sonarqube" {
 
     access_config {
       // Ephemeral IP
-      nat_ip = data.google_compute_address.sonarvmip.address
+      nat_ip = "34.75.218.241/32"
     }
   }
   metadata = {
