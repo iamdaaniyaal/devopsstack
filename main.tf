@@ -162,7 +162,7 @@ resource "google_compute_instance" "jenkins" {
   zone         = "${var.jenkins_instance_zone}"
 
   tags        = ["name", "jenkins", "http-server"]
-  description = "${google_compute_address.sonarip.address}+${google_compute_address.hbip.address}+${google_container_cluster.primary.name}"
+  description = "xxxxxx+${google_compute_address.hbip.address}+${google_container_cluster.primary.name}"
 
   boot_disk {
     initialize_params {
