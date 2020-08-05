@@ -10,7 +10,7 @@ source ~/.bash_profile
 
 cd /var/lib/jenkins/jobs/Gk8
 sudo sed -i 's/35.227.120.7/'$harborip'/gI' config.xml
-sudo sed -i 's/k8s-java-devopsstack-103019070156/'$cluster'/gI' config.xml
+sudo sed -i 's/k8s-kumar-devopsstack-072520113630/'$cluster'/gI' config.xml
 #sudo sed -i 's/https://github.com/ashoksanem/jenkins_test/'
 
 cd /
