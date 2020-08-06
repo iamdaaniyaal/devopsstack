@@ -124,8 +124,9 @@ resource "google_compute_instance" "harbor" {
     name = "harbor"
   }
   #description             = "${google_compute_address.hbip.address}"
-  metadata_startup_script = "sudo yum update -y; sudo yum install git -y; export harborip=$(curl -H \"Metadata-Flavor: Google\" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip);sudo yum install wget -y; sudo sed -i 's/35.185.35.12/35.237.223.92/gI' /opt/harbor/harbor.yml; cd /opt/harbor/; sudo systemctl restart docker; sudo ./install.sh --with-clair"
-
+  #metadata_startup_script = "sudo yum update -y; sudo yum install git -y; export harborip=$(curl -H \"Metadata-Flavor: Google\" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip);sudo yum install wget -y; sudo sed -i 's/35.185.35.12/35.237.223.92/gI' /opt/harbor/harbor.yml; cd /opt/harbor/; sudo systemctl restart docker; sudo ./install.sh --with-clair"
+  metadata_startup_script = "sudo yum update -y; cd /opt/harbor/; sudo systemctl restart docker; sudo sh install.sh --with-clair;"
+  
 
   service_account {
     email  = "newjarvis@cloudglobaldelivery-1000135575.iam.gserviceaccount.com"
