@@ -81,10 +81,10 @@ data "google_compute_image" "harbor" {
   project = "cloudglobaldelivery-1000135575"
 }
 
-resource "google_compute_address" "hbip" {
-  name   = "${var.harbor_instance_ip_name}"
-  region = "${var.harbor_instance_ip_region}"
-}
+#resource "google_compute_address" "hbip" {
+#  name   = "${var.harbor_instance_ip_name}"
+#  region = "${var.harbor_instance_ip_region}"
+#}
 
 
 
@@ -112,7 +112,8 @@ resource "google_compute_instance" "harbor" {
     subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
     access_config {
       // Ephemeral IP
-      nat_ip       = "${google_compute_address.hbip.address}"
+      #nat_ip       = "${google_compute_address.hbip.address}"
+      nat_ip = "35.237.223.92" 
       network_tier = "PREMIUM"
     }
   }
@@ -325,7 +326,8 @@ resource "google_compute_instance" "elk" {
 //Kubernetes
 
 resource "google_container_cluster" "primary" {
-  name     = "${var.kube_cluster_name}"
+  #name     = "${var.kube_cluster_name}"
+  name = "cluster"
   location = "${var.kube_cluster_location}"
      network    = "${google_compute_network.vpc1.self_link}"
     subnetwork = "${google_compute_subnetwork.subnet1.self_link}"
