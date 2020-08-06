@@ -20,4 +20,7 @@ export harborip=$(curl -H "Metadata-Flavor: Google" http://metadata/computeMetad
 # sudo sed -i 's/hostname: reg.mydomain.com/hostname: $harborip/g'   /opt/harbor/harbor.yml
 sudo sed -i 's/reg.mydomain.com/'$harborip'/' /opt/harbor/harbor.yml
 sudo  sh  /opt/harbor/install.sh --with-clair
+sudo systemctl restart docker
+cd /opt/harbor
+sudo sh ./install.sh --with-clair
 # sudo sed -i 's/reg.mydomain.com/'$IP'/' harbor.yml
