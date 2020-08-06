@@ -77,7 +77,7 @@ resource "google_compute_firewall" "firewall2" {
 
 data "google_compute_image" "harbor" {
 #   family  = "centos"
-  name = "harbor"
+  name = "hb-jarvis-final-build"
   project = "cloudglobaldelivery-1000135575"
 }
 
