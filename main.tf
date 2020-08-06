@@ -123,7 +123,7 @@ resource "google_compute_instance" "harbor" {
   metadata = {
     name = "harbor"
   }
-  description             = "${google_compute_address.hbip.address}"
+  #description             = "${google_compute_address.hbip.address}"
   metadata_startup_script = "sudo yum update -y; sudo yum install git -y; export harborip=$(curl -H \"Metadata-Flavor: Google\" http://metadata/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip);sudo yum install wget -y; sudo sed -i 's/35.185.35.12/'$harborip'/gI' /opt/harbor/harbor.yml; cd /opt/harbor/; sudo su; ./install.sh --with-clair"
 
 
