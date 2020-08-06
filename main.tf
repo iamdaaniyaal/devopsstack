@@ -141,7 +141,7 @@ resource "google_compute_instance" "harbor" {
 data "google_compute_image" "jenkins" {
 #   family  = "centos"
   #name = "jenkins-image-dev"
-  name = "jenkinsjarvisnewimage"
+  name = "jenkins-jarvis-build-image"
   project = "cloudglobaldelivery-1000135575"
 }
 
